@@ -63,9 +63,10 @@
 				<div class="hero-small">
 					<hr /><span><span class="fa fa-calendar"></span>January 24-25 <div class="sep"></div> <span class="fa fa-map-marker"></span><a href="http://www.galvanize.it/locations/#san-francisco-soma" style="text-decoration:none;color:#FFFFFF;">Galvanize, SF</a></span> <hr />
 				</div>
-				<div class="hero-normal">Today’s youth hacking tomorrow’s <strong>future.</strong> <br>A 30 hour Hackathon for High School Students<br>We are providing travel reimbursements!</div>
+				<div class="hero-normal">Today’s youth hacking tomorrow’s <strong>future.</strong> <br>A 30 hour Hackathon for High School Students<br>We are providing travel reimbursements!<br>We will be providing buses to and from SAT centers. Event starts after SATs.</div>
 				<a href="#sponsors" class="btn btn-lg btn-3d"><i class="fa fa-play-circle fa-2x"></i> <span>Sponsor Us</span></a>
 				<a href="https://michaelmatias.typeform.com/to/KTbBqz" class="btn btn-lg btn-3d btn-2d"><i class="fa fa-check-circle-o fa-2x"></i> <span>Apply Now</span></a>
+				<!--<a class="btn btn-lg btn-3d btn-2d btn-1d" id="btn_createTeam"><i class="fa fa-plus-circle fa-2x"></i> <span>Create My Team</span></a>-->
 				<div class="hero small" style="width:600px;margin:0px auto;margin-bottom:25px;margin-top:30px;">
 				<!--	<strong style="font-size:20px;">We have a limited number of spots, and we read applications in the order that they come in. First 500 to apply will get an extra advantage in the application process!</strong>-->
 				</div>
@@ -73,6 +74,9 @@
 	</div>
 </div>
 </section>
+
+
+
 <!-- End Hero Section -->
 <!-- Header -->
 <header id="header" class="navigation-bar-header light hidden-xs">
@@ -572,6 +576,42 @@
 	<div class="content-area">
 	</div>
 </div>
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="myModalLabel">Create Your Hacking Dream-Team!</h4>
+			</div>
+			<div class="modal-body">
+				<form action="http://hackgeny.us9.list-manage.com/subscribe/post" method="POST" role="form" id="form-team">
+					<input type="hidden" name="u" value="205818165b2cae3ffc9ea3608">
+					<input type="hidden" name="id" value="8b8b9d2e0d">
+					<input type="hidden" value="random@gmail.com" name="MERGE0" id="MERGE0"></input>
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="Your Name" name="MERGE2" id="MERGE2"></input>
+					</div>
+					<div class="form-group">
+						<input type="email" class="form-control" placeholder="Team Member 1 Email. e.g. tony@starkindustries.com" name="MERGE1" id="MERGE1">
+					</div>
+					<div class="form-group">
+						<input type="email" class="form-control" placeholder="Team Member 2 Email. e.g. fitz@shield.com" name="MERGE3" id="MERGE3">
+					</div>
+					<div class="form-group">
+						<input type="email" class="form-control" placeholder="Team Member 3 Email. e.g. bruce@banner.com" name="MERGE4" id="MERGE4">
+					</div>
+					<button type="submit" class="btn btn-default" data-dismiss="modal" id="btn-team-submit">Invite My Teammates!</button>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 <script type='text/javascript' src='wp-content/themes/hackgeny/assets/jquery-snowfall/dist/snowfall.min.js'></script>
 <script type='text/javascript' src='wp-content/themes/hackgeny/js/navigation.js?ver=20120206'></script>
 <script type='text/javascript' src='wp-content/themes/hackgeny/js/skip-link-focus-fix.js?ver=20130115'></script>
@@ -583,6 +623,34 @@
 		$('#element_to_pop_up').bPopup({
 			contentContainer:'.content-area',
 			loadUrl: '/participant' //Uses jQuery.load()
+		});
+	});
+	</script>
+	<script type="text/javascript">
+	$( "#btn_createTeam" ).bind( "click", function() {
+		$('#myModal').modal('show');
+	});
+	$( "#btn-team-submit" ).bind( "click", function() {
+		API_KEY = "54a7df5d9f729d6c77fa63a2641fc1de-us9"
+		/*
+		lists/subscribe (string apikey, string id, struct email, struct merge_vars, string email_type, bool double_optin, bool update_existing, bool replace_interests, bool send_welcome)
+		*/
+		$.ajax({
+			type: "POST",
+			url: "https://us9.api.mailchimp.com/2.0/lists/subscribe",
+			dataType: 'jsonp',
+			data: { apikey: API_KEY,
+			 		id: "8b8b9d2e0d",
+					email: {'email':'ignorecausemailchiprequiresit'+$('#MERGE2').val()+$('#MERGE1').val()+$('#MERGE3').val()+$('#MERGE4').val()},
+					merge_vars: {'NAME':$('#MERGE2').val(), 'TEAM1':$('#MERGE1').val(), 'TEAM2':$('#MERGE3').val(), 'TEAM3':$('#MERGE4').val()},
+					double_optin: false,
+					update_existing: false,
+					replace_interests: false,
+					send_welcome: false }
+					console.log(data);
+		}).done(function( response ) {
+			console.log('ok');
+			console.log("response:" + response);
 		});
 	});
 	</script>
